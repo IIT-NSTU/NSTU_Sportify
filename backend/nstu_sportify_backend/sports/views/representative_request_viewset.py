@@ -11,13 +11,12 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 class RepresentativeRequestViewSet(viewsets.ModelViewSet):
     queryset = RepresentativeRequest.objects.all()
     serializer_class = RepresentativeRequestSerializer
-    permission_classes = [IsAdminOrReadOnly]  # Default permission for all actions
+    permission_classes = [IsAdminOrReadOnly]
 
-    # Override the permission for the 'create' action (for POST requests)
     def get_permissions(self):
-        if self.action == 'create':  # Only for 'create' action (POST)
-            return [AllowAny()]  # No authentication required
-        return super().get_permissions()  # Use default permissions for other actions
+        if self.action == 'create':
+            return [AllowAny()]
+        return super().get_permissions()
 
     @action(detail=True, methods=['post'], permission_classes=[IsAdminUser])
     def approve_request(self, request, pk=None):
@@ -29,7 +28,6 @@ class RepresentativeRequestViewSet(viewsets.ModelViewSet):
             if rep_request.status != 'pending':
                 return Response({"detail": "This request has already been processed."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Create representative and user
             Representative.objects.create(
                 name=rep_request.name,
                 email=rep_request.email,
@@ -41,7 +39,7 @@ class RepresentativeRequestViewSet(viewsets.ModelViewSet):
                 password="12345",  # Replace with secure generation
                 is_representative=True
             )
-            # Update request status
+
             rep_request.status = 'approved'
             rep_request.save()
             return Response({"detail": "Request approved successfully."}, status=status.HTTP_200_OK)
@@ -60,7 +58,6 @@ class RepresentativeRequestViewSet(viewsets.ModelViewSet):
             if rep_request.status != 'pending':
                 return Response({"detail": "This request has already been processed."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Update the request status
             rep_request.status = 'rejected'
             rep_request.save()
             return Response({"detail": "Request rejected."}, status=status.HTTP_200_OK)

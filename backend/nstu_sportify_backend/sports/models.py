@@ -7,7 +7,6 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-##############################
 class CustomUser(AbstractUser):
     is_representative = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -40,9 +39,8 @@ class Team(models.Model):
     name = models.CharField(max_length=100)
     coach = models.CharField(max_length=100)
     representative = models.ForeignKey(Representative, on_delete=models.CASCADE)
-    # Add a Many-to-Many relationship to players
     players = models.ManyToManyField('Player', related_name='teams', blank=True)
-    sport = models.CharField(max_length=50, choices=SPORTS_CHOICES)  # Add the sport field
+    sport = models.CharField(max_length=50, choices=SPORTS_CHOICES)
     def __str__(self):
         return f"{self.name} ({self.get_sport_display()})"
 class Player(models.Model):
