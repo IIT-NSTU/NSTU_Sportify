@@ -90,8 +90,9 @@ The project adheres to RESTful API principles, enabling a seamless connection be
 ---
 
 ## 🎥 Links to Presentations
-- **[Project Presentation](NSTU_Sportify_SRS.pdf)**
-- **[SRS Docuement](NSTU_Sportify.pptx)**
+- **[Project Presentation](NSTU_Sportify.pptx)**
+- **[SRS Docuement](NSTU_Sportify_SRS.pdf)**
+- **[Database Schema](nstu_sportify_database.pdf)**
 
 ---
 
